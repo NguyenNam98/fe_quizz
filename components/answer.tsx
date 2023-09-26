@@ -28,7 +28,7 @@ export default function Answer(props: answerProps) {
     return (
         <ButtonSelect
             variant="contained"
-            color={clicked ? 'secondary' : 'success'}
+            color={clicked ? 'success': 'secondary'}
             onClick={(event) => {setStateClicked(item.id)}}
         >
             {item.answer_text}

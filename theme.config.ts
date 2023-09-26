@@ -40,7 +40,7 @@ const light = {
     primary: {
       main: '#FFFFFF',
       light: '#ffa726',
-      dark: '#ffa726',
+      dark: '#f0f0f0',
     },
     secondary: {
       main: '#6eafb4',
@@ -59,10 +59,10 @@ const light = {
     canvas: {
       light: '#FFFFFF',
       main: '#FAFAFA',
-      dark: '#F5F5F5',
+      dark: '#F0F0F0',
     },
     success: {
-      main: '#0448CA',
+      main: '#1ca4e8',
       light: '#E5ECFA',
       contrastText: '#E5ECFA',
     },
