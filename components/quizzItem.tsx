@@ -19,7 +19,7 @@ export default function QuizzItem(props: quizzType) {
         router.push(`/quizz/${item.id}`)
     }
     return (
-        <Paper sx={{
+        <Box sx={{
             backgroundColor: '#ffffff',
             height: 80,
             borderRadius: '10px',
@@ -52,6 +52,6 @@ export default function QuizzItem(props: quizzType) {
             >
                 {type === 'new' ? 'Start' : 'Retake'}
             </Button>
-        </Paper>
+        </Box>
     )
 }
