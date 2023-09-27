@@ -14,6 +14,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+    console.log('process.envprocess.env', process.env)
   return (
     <html lang="en">
       <head>

@@ -25,7 +25,7 @@ export default function Page() {
             password: password
         }
         try {
-            const res = await axios.post('http://localhost:8000/api/token-auth', data)
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_HOST_API}/api/token-auth`, data)
             if (res.data && res.data.token) {
                 setCookie('tk', res.data.token)
                 router.push('/')
