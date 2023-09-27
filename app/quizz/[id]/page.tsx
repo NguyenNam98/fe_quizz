@@ -95,7 +95,7 @@ export default function Quizz({ params }: { params: { id: string } }) {
             quizz_id: params.id,
             answer: answerQuestion
         }
-        const response = await axios.post(`http://localhost:8000/api/check-answer`,data, options)
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST_API}/api/check-answer`,data, options)
         const rightAnswer = response.data.data.result.find((item: {is_correct: boolean, question_id: string}) => item.is_correct) || []
         setResult(`${rightAnswer.length}/${response.data.data.result.length}`)
         setOpenResult((open) => !open)
@@ -115,7 +115,7 @@ export default function Quizz({ params }: { params: { id: string } }) {
             }
             const getData = async () => {
                 try {
-                    const res = await axios.get(`http://localhost:8000/api/quizz/${params.id}`,options)
+                    const res = await axios.get(`${process.env.NEXT_PUBLIC_HOST_API}/api/quizz/${params.id}`,options)
                     if (res.data?.data) {
                         setQuizz(res.data?.data)
                         setQuestions(res.data?.data.attributes.questions[0])

@@ -37,7 +37,7 @@ export default function HomePage() {
               }
               const getData = async () => {
                 try {
-                    const res = await axios.get('http://localhost:8000/api/quizz',options)
+                    const res = await axios.get(`${process.env.NEXT_PUBLIC_HOST_API}/api/quizz`,options)
                     if (res.data?.data) {
                         setCompletedQuizz(res.data.data.completed)
                         setUncompletedQuizz(res.data.data.new)
