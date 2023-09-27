@@ -101,10 +101,10 @@ const light = {
       lineHeight: '1.5em',
       letterSpacing:  '0.05em'
     },
-    h6: {
-      lineHeight: '1.5em',
-      letterSpacing:  '0.05em'
-    }
+    // h6: {
+    //   lineHeight: '1.5em',
+    //   letterSpacing:  '0.05em'
+    // }
   },
 }
 

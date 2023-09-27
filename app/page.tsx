@@ -6,60 +6,52 @@ import dynamic from 'next/dynamic'
 
 import TabPanel from "@/components/tabPanel";
 import {useEffect, useState} from "react";
+import {useCookies} from "react-cookie";
+import {useRouter} from "next/navigation";
+import axios from "axios";
 const QuizzItem = dynamic(() => import('@/components/quizzItem'), { ssr: false })
 
-const listQuizzCompleted = [
-    {
-        id: 'abcd112',
-        title: 'quizz11',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-    {
-        id: 'abcd222',
-        title: 'quizz11',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-    {
-        id: 'abcd333',
-        title: 'quizz11',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-    {
-        id: 'abcd444',
-        title: 'quizz11',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-]
-const listQuizzNew = [
-    {
-        id: 'abcd1',
-        title: 'quizz12',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-    {
-        id: 'abcd2',
-        title: 'quizz12',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-    {
-        id: 'abcd3',
-        title: 'quizz12',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-    {
-        id: 'abcd4',
-        title: 'quizz12',
-        description: 'test quizz test quizz test quizz test quizz test quizz '
-    },
-]
-
-
+interface quizzType{
+    id: string
+    title: string
+    description: string
+}
 export default function HomePage() {
     const [value, setValue] = useState(1)
+    const [cookies, setCookie] = useCookies(['tk'])
+    const [completedQuizz, setCompletedQuizz] = useState<quizzType[]>([])
+    const [unCompletedQuizz, setUncompletedQuizz] = useState<quizzType[]>([])
+    const router = useRouter()
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue)
     };
+    useEffect(() =>{
+        if (!cookies.tk) {
+            router.push('/login')
+        } else {
+              let options = {
+                  headers: {
+                      'Authorization':`Token ${cookies.tk}`
+                  }
+              }
+              const getData = async () => {
+                try {
+                    const res = await axios.get('http://localhost:8000/api/quizz',options)
+                    if (res.data?.data) {
+                        setCompletedQuizz(res.data.data.completed)
+                        setUncompletedQuizz(res.data.data.new)
+                    } else {
+                        router.push('/login')
+                    }
+                } catch (e) {
+                    router.push('/login')
+                }
+            }
+            getData()
+        }
+
+    }, [])
     return (
         <Box sx={{
             display: 'flex',
@@ -78,7 +70,7 @@ export default function HomePage() {
                     justifyContent: 'center',
                 }}
             >
-                <Typography mt={3} variant='h2'>Wellcome to quizz</Typography>
+                <Typography variant={'h2'}>Wellcome to quizz</Typography>
             </Box>
             <Box
                 sx={{
@@ -113,7 +105,7 @@ export default function HomePage() {
                         index={1}
                     >
                         {
-                            listQuizzNew.map((item) => {
+                            unCompletedQuizz.map((item) => {
                                 return (
                                     <QuizzItem
                                         key = {item.id}
@@ -126,7 +118,7 @@ export default function HomePage() {
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         {
-                            listQuizzCompleted.map((item) => {
+                            completedQuizz.map((item) => {
                                 return (
                                     <QuizzItem
                                         key = {item.id}
