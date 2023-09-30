@@ -59,7 +59,9 @@ export default function QuizzItem(props: quizzType) {
                     fontWeight: 400,
                 }}>{item.description}</Typography>
             </Box>
-            <Box>
+            <Box sx={{
+                display: 'flex'
+            }}>
 
                 <Button
                     variant={"contained"}

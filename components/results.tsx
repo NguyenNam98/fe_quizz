@@ -59,9 +59,6 @@ export default function ResponsiveDialog(props: resultType) {
                 <Button variant="contained" color={'secondary'} autoFocus onClick={handleClose}>
                     <Link href='/'>Home</Link>
                 </Button>
-                <Button variant="contained" color={'secondary'} onClick={handleClose} autoFocus>
-                    Retry
-                </Button>
             </DialogActions>
         </Dialog>
     );
