@@ -140,10 +140,10 @@ export default function Quizz({ params }: { params: { id: string } }) {
                         setQuizz(res.data?.data)
                         setQuestions(res.data?.data.attributes.questions[0])
                     } else {
-                        router.push('/quizz')
+                        router.push('/')
                     }
                 } catch (e) {
-                    router.push('/quizz')
+                    router.push('/')
                 }
             }
             getData()
