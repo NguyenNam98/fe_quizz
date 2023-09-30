@@ -16,10 +16,15 @@ interface quizzType{
     title: string
     description: string
 }
+interface quizzCompletedType{
+    result_id: string
+    quizz_info: quizzType
+    score: string
+}
 export default function HomePage() {
     const [value, setValue] = useState(1)
     const [cookies, setCookie] = useCookies(['tk'])
-    const [completedQuizz, setCompletedQuizz] = useState<quizzType[]>([])
+    const [completedQuizz, setCompletedQuizz] = useState<quizzCompletedType[]>([])
     const [unCompletedQuizz, setUncompletedQuizz] = useState<quizzType[]>([])
     const router = useRouter()
 
@@ -118,12 +123,14 @@ export default function HomePage() {
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         {
-                            completedQuizz.map((item) => {
+                            completedQuizz.map((item, index) => {
                                 return (
                                     <QuizzItem
-                                        key = {item.id}
-                                        item = {item}
+                                        key = {item.quizz_info.id + index}
+                                        item = {item.quizz_info}
                                         type ={'old'}
+                                        score = {item.score}
+                                        result_id = {item.result_id}
                                     />
                                 )
                             })

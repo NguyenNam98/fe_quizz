@@ -11,12 +11,17 @@ interface quizzType {
         description: string,
     }
     type : string
+    score ?: string
+    result_id ?: string
 }
 export default function QuizzItem(props: quizzType) {
-    const {item, type} = props
+    const {item, type, score, result_id} = props
     const router = useRouter()
     const startQuizz = () =>{
         router.push(`/quizz/${item.id}`)
+    }
+    const reviewResult = () =>{
+        router.push(`/result/${result_id}`)
     }
     return (
         <Box sx={{
@@ -33,25 +38,58 @@ export default function QuizzItem(props: quizzType) {
                 padding: '10px'
 
             }}>
-                <Typography variant={'h6'}>{item.title}</Typography>
+                <Typography variant={'h6'}>
+                    { item.title}
+                </Typography>
+                {
+                    type !== 'new' &&
+                    <Typography
+                        sx ={{
+                            fontSize: 12,
+                            fontWeight: 400,
+                            color: 'red'
+
+                         }}
+                    >
+                        Result: {score}
+                    </Typography>
+                }
                 <Typography sx={{
                     fontSize: 13,
                     fontWeight: 400,
                 }}>{item.description}</Typography>
             </Box>
-            <Button
-                variant={"contained"}
-                color={'secondary'}
-                sx={{
-                height: 40,
-                width: 100,
-                color: '#ffffff',
-                marginRight: '15px',
-                }}
-                onClick={()=>{startQuizz()}}
-            >
-                {type === 'new' ? 'Start' : 'Retake'}
-            </Button>
+            <Box>
+
+                <Button
+                    variant={"contained"}
+                    color={'secondary'}
+                    sx={{
+                    height: 40,
+                    width: 100,
+                    color: '#ffffff',
+                    marginRight: '15px',
+                    }}
+                    onClick={()=>{startQuizz()}}
+                >
+                    {type === 'new' ? 'Start' : 'Retake'}
+                </Button>
+                {
+                    type !== 'new' &&  <Button
+                        variant={"contained"}
+                        color={'secondary'}
+                        sx={{
+                            height: 40,
+                            width: 100,
+                            color: '#ffffff',
+                            marginRight: '15px',
+                        }}
+                        onClick={()=>{reviewResult()}}
+                    >
+                        Review
+                    </Button>
+                }
+            </Box>
         </Box>
     )
 }
