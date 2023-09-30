@@ -1,14 +1,18 @@
 'use client'
-import {Box, Button, Typography} from "@mui/material";
-import React, {useEffect, useState} from "react";
-import {styled} from "@mui/system";
-import Answer from "@/components/answer";
-import ResponsiveDialog from "@/components/results";
-import axios from "axios";
-import {useRouter} from "next/navigation";
-import {useCookies} from "react-cookie";
+import {Box, Button, Typography} from "@mui/material"
+import React, {useEffect, useState} from "react"
+import {styled} from "@mui/system"
+import Answer from "@/components/answer"
+import ResponsiveDialog from "@/components/results"
+import axios from "axios"
+import {useRouter} from "next/navigation"
+import {useCookies} from "react-cookie"
+import CloseIcon from '@mui/icons-material/Close'
 interface myAnswer {
     [key: string]: any
+}
+interface dataCheckType {
+    score: string
 }
 interface answerType {
     id: string
@@ -54,6 +58,9 @@ export default function Quizz({ params }: { params: { id: string } }) {
     const setNextQuestion = () =>{
         setOrderQuestion(orderQuestion + 1)
     }
+    const backHome = () =>{
+        router.push('/')
+    }
     const setPrevQuestion = () =>{
         setOrderQuestion(orderQuestion - 1)
     }
@@ -85,19 +92,32 @@ export default function Quizz({ params }: { params: { id: string } }) {
             }
         }
         const answerQuestion = Object.keys(answer).reduce((prev: answerPostType[], current: string) => {
-            prev.push({
-                question_id: current,
-                selected_answer: answer[current]
-            })
+            if (answer[current].length > 0) {
+                prev.push({
+                    question_id: current,
+                    selected_answer: answer[current]
+                })
+            }
             return prev
         }, [])
+        if (answerQuestion.length < quizz.attributes.questions.length) {
+            alert('Please make sure you finish all question !')
+            return
+        }
         const data = {
             quizz_id: params.id,
             answer: answerQuestion
         }
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST_API}/api/check-answer`,data, options)
-        const rightAnswer = response.data.data.result.find((item: {is_correct: boolean, question_id: string}) => item.is_correct) || []
-        setResult(`${rightAnswer.length}/${response.data.data.result.length}`)
+        let dataCheck = {} as dataCheckType
+        const urlCheckAnswer = `${process.env.NEXT_PUBLIC_HOST_API}/api/check-answer`
+        try {
+            const response = await axios.post(urlCheckAnswer, data, options)
+            dataCheck = response.data.data
+        } catch (e) {
+            router.push('/')
+        }
+
+        setResult(dataCheck.score)
         setOpenResult((open) => !open)
     }
     useEffect(()=>{
@@ -150,6 +170,16 @@ export default function Quizz({ params }: { params: { id: string } }) {
                 boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.25)',
                 textAlign: 'center'
             }}>
+                <CloseIcon
+                    sx={{
+                        position: 'absolute',
+                        right: 10,
+                        top: 10,
+                        color: '#111111',
+                        cursor:'pointer'
+                    }}
+                    onClick={() => {backHome()}}
+                />
                 <Typography variant='h5'>Question {orderQuestion + 1}/{quizz?.attributes?.questions.length}</Typography>
                 <Typography variant='h5'>{questions.question_text}</Typography>
                 {/*{!quizz.questions[orderQuestion].is_single_choice && <i>You have to choose more than one</i>}*/}
@@ -196,7 +226,7 @@ export default function Quizz({ params }: { params: { id: string } }) {
                         (orderQuestion === quizz?.attributes?.questions.length - 1) &&
                         <ButtonCheck
                             variant="contained"
-                            onClick={()=>{checkResult()}}
+                            onClick={()=>{ checkResult() }}
                         > Submit</ButtonCheck>
                     }
                 </Box>
