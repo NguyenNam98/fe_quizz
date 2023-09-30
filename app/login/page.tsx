@@ -1,9 +1,8 @@
 'use client'
 import Box from "@mui/material/Box";
 import {Button, TextField, Typography} from "@mui/material";
-import {ChangeEvent, useState} from "react";
+import { useState} from "react";
 import axios from "axios";
-import http from "@/common/http";
 import {useCookies} from "react-cookie";
 import {useRouter} from "next/navigation";
 

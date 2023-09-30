@@ -1,13 +1,9 @@
 'use client'
 import {Box, Button, Paper, Typography} from "@mui/material"
 import React, {useEffect, useState} from "react"
-import {styled} from "@mui/system"
-import Answer from "@/components/answer"
-import ResponsiveDialog from "@/components/results"
 import axios from "axios"
 import {useRouter} from "next/navigation"
 import {useCookies} from "react-cookie"
-import CloseIcon from '@mui/icons-material/Close'
 import Information from "@/components/review/information";
 import Question from "@/components/review/question";
 

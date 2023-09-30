@@ -1,6 +1,6 @@
 'use client' // Error components must be Client Components
 
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {styled} from "@mui/system";
 import {Button} from "@mui/material";
 
