@@ -1,9 +1,7 @@
 'use client'
 import React from "react";
-import {Button, Checkbox, List, ListItem, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material"
+import { Checkbox, List, ListItem, ListItemIcon, ListItemText, Typography} from "@mui/material"
 import Box from "@mui/material/Box";
-import { useRouter } from 'next/navigation'
-import {styled} from "@mui/system"
 import CloseIcon from '@mui/icons-material/Close'
 import DoneIcon from '@mui/icons-material/Done'
 import {questionInfoType} from "@/app/result/[id]/page";
@@ -22,7 +20,6 @@ interface typeAnswers {
 
 export default function Question(props: propsQuestionType) {
     const {index, questionInfo} = props
-    console.log('questionInfoquestionInfo', questionInfo)
     const isCorrectAnswer = questionInfo.rightAnswer.every(item => questionInfo.userSelected.includes(item)) &&
         questionInfo.rightAnswer.length === questionInfo.userSelected.length
     const objectAnswer  = questionInfo.answers.reduce((prev: typeAnswers, item )=> {

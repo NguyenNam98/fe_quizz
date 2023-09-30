@@ -1,8 +1,7 @@
 'use client'
 import React from "react";
-import {Button, Paper, Typography} from "@mui/material"
+import { Typography} from "@mui/material"
 import Box from "@mui/material/Box";
-import { useRouter } from 'next/navigation'
 import {styled} from "@mui/system";
 
 const TypographyBig = styled(Typography)(({ theme }) => ({

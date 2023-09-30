@@ -120,6 +120,9 @@ export default function HomePage() {
                                 )
                             })
                         }
+                        {
+                            !unCompletedQuizz.length && <i>There are no quizz</i>
+                        }
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         {
@@ -134,6 +137,9 @@ export default function HomePage() {
                                     />
                                 )
                             })
+                        }
+                        {
+                            !completedQuizz.length && <i>There are no completed quizz</i>
                         }
                     </TabPanel>
                     </Box>
