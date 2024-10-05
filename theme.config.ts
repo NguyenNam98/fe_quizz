@@ -38,7 +38,7 @@ const light = {
   palette: {
     mode: 'light',
     primary: {
-      main: '#FFFFFF',
+      main: '#f57c00',
       light: '#ffa726',
       dark: '#f0f0f0',
     },

@@ -33,7 +33,7 @@ interface quizzType {
         questions: questionType[]
     }
 }
-const BoxContainer = styled(Box)(({ theme }) => ({
+const BoxContainer = styled(Box)(() => ({
     backgroundImage: `url(../background.jpg)`,
     backgroundSize: 'cover',
     height: '100vh',
@@ -41,7 +41,7 @@ const BoxContainer = styled(Box)(({ theme }) => ({
     paddingTop: '30px',
 
 }))
-const ButtonCheck = styled(Button)(({ theme }) => ({
+const ButtonCheck = styled(Button)(() => ({
     marginLeft: 10,
     width: 100
 }))
@@ -53,7 +53,7 @@ export default function Quizz({ params }: { params: { id: string } }) {
     const [openResult, setOpenResult] = useState(false)
     const router = useRouter()
     const [result, setResult] = useState('0')
-    const [cookies, setCookie] = useCookies(['tk'])
+    const [cookies, setCookie] = useCookies(['uid'])
 
     const setNextQuestion = () =>{
         setOrderQuestion(orderQuestion + 1)
@@ -125,8 +125,8 @@ export default function Quizz({ params }: { params: { id: string } }) {
     }, [orderQuestion])
 
     useEffect(() =>{
-        if (!cookies.tk) {
-            router.push('/login')
+        if (!cookies.uid) {
+            // router.push('/login')
         } else {
             const options = {
                 headers: {

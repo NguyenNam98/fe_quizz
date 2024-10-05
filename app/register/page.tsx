@@ -9,6 +9,7 @@ import {useCookies} from 'react-cookie';
 
 export default function Page() {
     const [userName, setUserName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [cookies, setCookie] = useCookies(['uid'])
 
@@ -19,22 +20,26 @@ export default function Page() {
     const setUser = (event: any)=>{
         setUserName(event.target.value)
     }
-    const loginFunc = async () => {
+
+    const setEmailString = (event: any)=>{
+        setEmail(event.target.value)
+    }
+    const registerFunction = async () => {
         const data = {
-            email: userName,
-            password: password
+            userName: userName,
+            password: password,
+            email: email
         }
         try {
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_HOST_API}/api/block-chain/v1/user/login`, data)
-            console.log("res.data", res.data)
-            if (res.data && !res.data.error && res.data.isLoginSuccess) {
-                setCookie('uid', res.data.userId)
-                router.push('/')
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_HOST_API}/api/block-chain/v1/user/register`, data)
+            if (res.data && !res.data.error) {
+                alert('Register success!!!!!')
+                router.push('/login')
             } else {
-                alert( res.data.error || 'Login failed')
+                alert('Register failed')
             }
         } catch (e) {
-            alert('Login failed')
+            alert('Register failed')
         }
     }
     useEffect(() =>{
@@ -72,10 +77,25 @@ export default function Page() {
                         // width: '50%'
                     }}
                 >
-                    <Typography variant={'h3'} color="secondary">login</Typography>
+                    <Typography variant={'h3'} color="secondary"> Register</Typography>
                 </Box>
                 <Box sx={{
-                    marginTop: '30px',
+                    // marginTop: '20px'
+                    width: '50%'
+                }}>
+                    <TextField
+                        label={"username"}
+                        id="username"
+                        variant="filled"
+                        color="secondary"
+                        margin="normal"
+                        focused
+                        fullWidth
+                        onChange={(event: any)=>{setUser(event)}}
+
+                    />
+                </Box>
+                <Box sx={{
                     width: '50%'
                 }}>
                     <TextField
@@ -86,7 +106,7 @@ export default function Page() {
                         margin="normal"
                         focused
                         fullWidth
-                        onChange={(event: any)=>{setUser(event)}}
+                        onChange={(event: any)=>{setEmailString(event)}}
                     />
                 </Box>
                 <Box sx={{
@@ -117,21 +137,34 @@ export default function Page() {
                         sx={{
                             color:'#ffffff'
                         }}
-                        onClick={()=>{loginFunc()}}
+                        onClick={()=>{registerFunction()}}
                     >
-                        Sign in
+                        register
                     </Button>
                     <Button
                         color={'secondary'}
                         size={'large'}
                         variant='contained'
+
                         sx={{
                             color:'#ffffff',
-                            marginLeft: '10px'
+                            marginLeft: '20px'
                         }}
-                        onClick= {()=>{router.push('/register')}}
                     >
-                        Register
+                        <a href={`${process.env.NEXT_PUBLIC_HOST_API}/api/block-chain/v1/user/gen-key`} download>Generate key</a>
+                    </Button>
+                    <Button
+                        color={'secondary'}
+                        size={'large'}
+                        variant='contained'
+
+                        sx={{
+                            color:'#ffffff',
+                            marginLeft: '20px'
+                        }}
+                        onClick={()=>{router.push('/login')}}
+                    >
+                       login
                     </Button>
                 </Box>
             </Box>
