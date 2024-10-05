@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import RequestedItem from "@/components/requestedFile";
 import MyRequestFileItem from "@/components/myRequested";
+import MyFile from "@/components/myFile";
 
 const NewFileItem = dynamic(() => import('@/components/newFile'), { ssr: false });
 
@@ -176,7 +177,7 @@ export default function HomePage() {
               <Tab value={1} label="New Doccuments" />
               <Tab value={2} label="My Files" />
               <Tab value={3} label="My requested" />
-              <Tab value={4} label="Ask" />
+              <Tab value={4} label="Requested Your File" />
             </Tabs>
 
             {/* Tab Panel for New Docs */}
@@ -195,7 +196,7 @@ export default function HomePage() {
             {/* Tab Panel for My Files */}
             <TabPanel value={value} index={2}>
               {myFile?.map((item) => (
-                  <NewFileItem
+                  <MyFile
                       key={item.id}
                       author={item.userName}
                       fileName={item.fileName}
@@ -205,7 +206,7 @@ export default function HomePage() {
               ))}
               {!myFile?.length && <i>There are no completed documents</i>}
 
-              <Typography variant="h6">Upload your files</Typography>
+              <Typography variant="h6">Upload your document</Typography>
 
               {/* Upload Button that opens the dialog */}
               <Box>
@@ -221,13 +222,13 @@ export default function HomePage() {
 
               {/* Dialog (Pop-up) */}
               <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Upload Files</DialogTitle>
+                <DialogTitle>Upload File</DialogTitle>
                 <DialogContent>
                   <form>
-                    <Typography>Upload your document file:</Typography>
+                    <Typography>Choose file:</Typography>
                     <input type="file" onChange={handleFileChange} />
 
-                    <Typography sx={{ marginTop: '20px' }}>Upload your key file:</Typography>
+                    <Typography sx={{ marginTop: '20px' }}>Private key file:</Typography>
                     <input type="file" onChange={handleKeyFileChange} />
                   </form>
                 </DialogContent>
